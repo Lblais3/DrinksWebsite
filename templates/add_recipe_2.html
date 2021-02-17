@@ -1,0 +1,275 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Recipe
+{% endblock %}
+
+{% block main %}
+<!--# TODO: Figure out how to have Autocomplete work based off our databases
+    # TODO: Instead of placeholders, use the little "i" icons that provide info -->
+
+    <form action="/add_recipe" method="post" autocomplete="off">
+        <!-- Drink Name and Accreditation -->
+        <h3>Drink Name and Accreditation</h3>
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="recipe_name">Drink Name: </label>
+                    <input autofocus class="form-control" name="recipe_name" id="recipe_name"  type="text" required>
+                </div>
+                <div class="col">
+                    <label for="bartender">Bartender: </label>
+                    <input class="form-control autocomplete" name="bartender" id="bartender" type="text">
+                </div>
+                <div class="col">
+                    <label for="year">Year: </label>
+                    <input class="form-control" name="year" id="year" placeholder="Ex: 2012" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="bar_book">Bar Book: </label>
+                    <input class="form-control autocomplete" name="bar_book" id="bar_book" type="text">
+                </div>
+                <div class="col">
+                    <label for="bar">Bar: </label>
+                    <input class="form-control autocomplete" name="bar" id="bar" type="text">
+                </div>
+            </div>
+        </div>
+
+        <!-- Ingredients -->
+        <h3>Ingredients</h3> <!-- #TODO: Fix the god-ugly <thead>s. I decided to just move forward -->
+        <div class="form-group" id="ingredients_as_table">
+            <table id="muddle_ingredients" class="table table-sm order-list">
+                <thead class="thead" align="center">
+                    <tr>
+                        <th colspan="4" class="ing-type">Muddle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 10%">Qty</td>
+                        <td style="width: 10%">Unit</td>
+                        <td style="width: 70%">Ingredient</td>
+                        <td style="width: 10%">Delete</td>
+                    </tr>
+                    <!-- Default NO Muddle ING
+                    <tr>
+                        <td>
+                            <input type="text" name="qty" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" name="unit"  class="form-control"/>
+                        </td>
+                        <td>
+                            <input type="text" name="ingredient" class="form-control ingredients"/>
+                        </td>
+                        <td><a class="deleteRow"></a>
+                        </td>
+                    </tr>
+                    -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="100%">
+                            <input type="button" class="btn btn-md btn-block btn-success addrow"
+                                   value="Add Another Ingredient"/>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <table id="primary_ingredients" class="table table-sm order-list">
+                <thead class="thead" align="center">
+                    <tr>
+                        <th colspan="4" class="ing-type">Primary</th>
+                    </tr>
+                    <tr>
+                        <td style="width: 10%">Qty</td>
+                        <td style="width: 10%">Unit</td>
+                        <td style="width: 70%">Ingredient</td>
+                        <td style="width: 10%">Delete</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="qty" class="form-control" required/>
+                        </td>
+                        <td>
+                            <input type="text" name="unit"  class="form-control" required/>
+                        </td>
+                        <td>
+                            <input type="text" name="ingredient" class="form-control ingredients autocomplete" required/>
+                        </td>
+                        <input type="hidden" name="ing_category" value="primary"/>
+                        <td><a class="deleteRow"></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="100%">
+                            <input type="button" class="btn btn-md btn-block btn-success addrow"
+                                   value="Add Another Ingredient"/>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <table id="garnish_ingredients" class="table table-sm order-list">
+                <thead class="thead" align="center">
+                    <tr>
+                        <th colspan="4" class="ing-type">Garnish</th>
+                    </tr>
+                    <tr>
+                        <td style="width: 10%">Qty</td>
+                        <td style="width: 10%">Unit</td>
+                        <td style="width: 70%">Ingredient</td>
+                        <td style="width: 10%">Delete</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="qty" class="form-control" required/>
+                        </td>
+                        <td>
+                            <input type="text" name="unit"  class="form-control" required/>
+                        </td>
+                        <td>
+                            <input type="text" name="ingredient" class="form-control ingredients autocomplete" required />
+                        </td>
+                        <input type="hidden" name="ing_category" value="garnish"/>
+                        <td>
+                            <input type="button" class="ibtnDel btn btn-md btn-danger"  value="Delete">
+                        </td>
+                        <td><a class="deleteRow"></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="100%">
+                            <input type="button" class="btn btn-md btn-block btn-success addrow"
+                                   value="Add Another Ingredient"/>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Methods -->
+        <h3>Methods</h3>
+        <div class="form-group">
+
+            <!-- Radios for Mix Method -->
+            <div class="form-group">
+            <h5>Mixtype</h5>
+                <!-- Iterate through mixtypes to create radio options -->
+                <!-- #TODO: As this list gets very long, maybe the query will only use the values that account
+                        for 90% of mixtypes? -->
+                {% for mix in MIXTYPES %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="mixtype" id="{{mix}}" value="{{mix}}" required>
+                    <label class="form-check-label" for="{{mix}}">{{mix}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="mixtype" id="mixtype_other" value="other">
+                    <label class="form-check-label" for="mixtype_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Radios for Pour Method -->
+            <div class="form-group">
+            <h5>Pour Type</h5>
+                <!-- Iterate through Pourtypes to create radio options -->
+                <!-- #TODO: As this list gets very long, maybe the query will only use the values that account
+                        for 90% of POURTYPES? -->
+                {% for pour in POURTYPES %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="pour" id="{{pour}}" value="{{pour}}" required>
+                    <label class="form-check-label" for="{{pour}}">{{pour}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pour" id="pour_other" value="other">
+                    <label class="form-check-label" for="pour_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+
+            <!-- Radios for Glass Type-->
+            <div class="form-group">
+            <h5>Glassware</h5>
+                <!-- Iterate through Glasstypes to create radio options -->
+                {% for glass in GLASSTYPES %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="glassware" id="{{glass}}" value="{{glass}}" required>
+                    <label class="form-check-label" for="{{glass}}">{{glass}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="glassware" id="glass_other" value="other" required>
+                    <label class="form-check-label" for="glass_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Checks for GLASSMODS-->
+            <div class="form-group">
+            <h5>Glassware Modifiers</h5>
+                <!-- Iterate through GLASSMODS to create radio options -->
+                {% for mod in GLASSMODS %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="glass_mods" id="{{mod}}" value="{{mod}}">
+                    <label class="form-check-label" for="{{mod}}">{{mod}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="glass_mod" id="glass_mod_other" value="other">
+                    <label class="form-check-label" for="glass_mod_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Radios for Ice Type-->
+            <div class="form-group">
+            <h5>Ice Type</h5>
+                <!-- Iterate through ICETYPES to create radio options -->
+                {% for ice in ICETYPES %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="ice_type" id="{{ice}}" value="{{ice}}" required>
+                    <label class="form-check-label" for="{{ice}}">{{ice}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="ice_type" id="ice_other" value="other" required>
+                    <label class="form-check-label" for="ice_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="form-group">
+                <label for="notes">Notes:</label>
+                <textarea class="form-control" name="notes" id="notes"></textarea>
+
+                <!--
+                <input class="form-control" name="notes" id="notes" type="text">
+                -->
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+    </form>
+{% endblock %}
+

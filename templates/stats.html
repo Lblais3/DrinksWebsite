@@ -1,0 +1,38 @@
+
+{% block title %}
+    Stats
+{% endblock %}
+
+{% block main %}
+
+
+<p> Ingredient Popularity </p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Ingredient</th>
+            <th scope="col">Frequency</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for key, value in ingredients.items() %}
+    <tr scope="row">
+        <th>{{key}}</th>
+        <th>{{value}}</th>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+
+
+{% endblock %}

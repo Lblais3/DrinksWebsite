@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Recipe
+{% endblock %}
+
+{% block main %}
+
+<form class="form-inline" action="/search" method="post" autocomplete="off">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+<p>Recipes found: {{count}}</p>
+
+<!-- #TODO: For recipe in recipes, render cards -->
+
+
+{%for recipe in recipes%}
+<div class="card-group">
+    <div class="card w-50">
+        <div class="card-body">
+            <h5 class="card-title">{{recipe['recipe_name']}}</h5>
+            <p>
+                Base: TBD How to calcuate <br>
+                <u>Specs</u> <br>
+                {% for ing in recipe['ingredients'] %}
+                {{ing['qty']}} {{ing['unit']}} {{ing['ingredient']}}<br>
+                {% endfor %}
+            </p>
+            <!--
+            Ideas of what to put here
+                Base Spirit
+                Uploader Description (ex: plymouth gin, campari, orange peel)
+                # of Ingredients
+                ABV
+                Complexity
+                Dominant flavor
+                Rating 1-5 (# of ratings)
+                User tags (ex: spicy, jalapeno, floral)
+                Uploader or user submitted Photo
+            -->
+             <a href={{ url_for('recipe',recipe_id=recipe['_id']) }} class="btn btn-primary">Recipe</a>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">By: {{recipe['bartender']}} as published in {{recipe['bar_book']}}</small>
+        </div>
+    </div>
+    <div class="card w-25" >
+        <div class="card-body">
+
+            <img src="{{url_for('static', filename='images/' + recipe['mixtype'] + '.svg')}}">
+        </div>
+        <div class="card-footer">
+            <p class="card-text">Icon of {{recipe['mixtype']}}</p>
+        </div>
+    </div>
+    <div class="card w-25">
+        <div class="card-body">
+            <p class="card-text">Icon of {{recipe['glassware']}}</p>
+        </div>
+    </div>
+
+{%endfor%}
+
+
+
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+
+
+
+
+{% endblock %}

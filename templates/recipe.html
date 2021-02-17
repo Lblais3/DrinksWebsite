@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Recipe Page!
+{% endblock %}
+
+{% block main %}
+
+
+
+<p> {{recipe['recipe_name']}} </p>
+<p> by {{recipe['bartender']}} in {{recipe['year']}}</p>
+<p> Debuted at: {{recipe['bar']}} </p>
+<p> Published in: {{recipe['bar_book']}} </p>
+
+<p> Specs </p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Qty</th>
+            <th scope="col">Unit</th>
+            <th scope="col">Ingredient</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for ing in recipe['ingredients'] %}
+    <tr scope="row">
+        {% if ing['ing_category'] == 'primary' %}
+        <th></th>
+        {% elif ing['ing_category'] %}
+        <th>{{ing['ing_category'].capitalize()}}</th>
+        {% else %}
+        <th></th>
+        {% endif %}
+        <th>{{ing['qty']}}</th>
+        <th>{{ing['unit']}}</th>
+        <th>{{ing['ingredient']}}</th>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<!--
+<p> {{recipe['recipe_name']}} </p>
+<p> {{recipe['recipe_name']}} </p>
+<p> {{recipe['recipe_name']}} </p>
+-->
+
+
+
+
+
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+<!-- #TODO:  -->
+
+
+
+
+{% endblock %}

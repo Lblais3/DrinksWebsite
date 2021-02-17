@@ -1,0 +1,208 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Recipe
+{% endblock %}
+
+{% block main %}
+<!--# TODO: Figure out how to have Autocomplete work based off our databases
+    # TODO: Instead of placeholders, use the little "i" icons that provide info -->
+
+    <form action="/add_recipe" method="post" autocomplete="off">
+        <!-- Drink Name and Accreditation -->
+        <h3>Drink Name and Accreditation</h3>
+        <hr/>
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="recipe_name">Drink Name: </label>
+                    <input autofocus class="form-control" name="recipe_name" id="recipe_name" placeholder="Ex: Aviation" type="text">
+                </div>
+                <div class="col">
+                    <label for="bartender">Bartender: </label>
+                    <input class="form-control" name="bartender" id="bartender" placeholder="Ex: Genesis Cruz" type="text">
+                </div>
+                <div class="col">
+                    <label for="year">Year: </label>
+                    <input class="form-control" name="year" id="year" placeholder="Ex: 2012" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="bar_book">Bar Book: </label>
+                    <input class="form-control" name="bar_book" id="bar_book" value="Death & Co: Modern Classic Cocktails" placeholder="Ex: Death & Co: Modern Classic Cocktails" type="text">
+                </div>
+                <div class="col">
+                    <label for="bar">Bar: </label>
+                    <input class="form-control" name="bar" id="bar" value="Death & Co: NYC" placeholder="The Dead Rabbit Grocery and Grog" type="text">
+                </div>
+            </div>
+        </div>
+
+        <!-- Ingredients -->
+        <h3>Ingredients</h3>
+        <div class="form-group" id="ingredients_as_table">
+            <table id="ingredients" class=" table order-list">
+            <thead>
+                <tr>
+                    <td style="width: 10%">Qty</td>
+                    <td style="width: 10%">Unit</td>
+                    <td style="width: 70%">Ingredient</td>
+                    <td style="width: 10%">Delete</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" name="qty" class="form-control" />
+                    </td>
+                    <td>
+                        <input type="mail" name="unit"  class="form-control"/>
+                    </td>
+                    <td>
+                        <input type="text" name="ingredient" class="form-control ingredients"/>
+                    </td>
+                    <td><a class="deleteRow"></a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="100%">
+                        <input type="button" class="btn btn-lg btn-block btn-success" id="addrow"
+                               value="Add Another Ingredient"/>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        </div>
+
+        <!-- Methods -->
+        <h3>Methods</h3>
+        <div class="form-group">
+        <hr/>
+
+            <!-- Muddle -->
+            <div class="form-group">
+                <h5>Muddle <input type="button" class="btn btn-sm btn-primary" id="muddleRefresh" value="Refresh Ingredients"></h5>
+                <!-- Iterate through GLASSMODS to create radio options -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="muddle" id="muddle" value="{{mod}}">
+                    <label class="form-check-label" for="muddle"
+                           placeholder="Add Ingredients above in order to select which to muddle"></label>
+                </div>
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="glass_mod" id="muddle_other" value="other">
+                    <label class="form-check-label" for="glass_mod_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Radios for Mix Method -->
+            <div class="form-group">
+            <h5>Mixtype</h5>
+                <!-- Iterate through mixtypes to create radio options -->
+                <!-- #TODO: As this list gets very long, maybe the query will only use the values that account
+                        for 90% of mixtypes? -->
+                {% for mix in MIXTYPES %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="mixtype" id="{{mix['back']}}" value="{{mix['back']}}">
+                    <label class="form-check-label" for="{{mix['back']}}">{{mix['disp']}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="mixtype" id="mixtype_other" value="other">
+                    <label class="form-check-label" for="mixtype_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Radios for Glass Type-->
+            <div class="form-group">
+            <h5>Glassware</h5>
+                <!-- Iterate through Glasstypes to create radio options -->
+                {% for glass in GLASSTYPES %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="glassware" id="{{glass}}" value="{{glass}}">
+                    <label class="form-check-label" for="{{glass}}">{{glass}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="glassware" id="glass_other" value="other">
+                    <label class="form-check-label" for="glass_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Checks for GLASSMODS-->
+            <div class="form-group">
+            <h5>Glassware Modifiers</h5>
+                <!-- Iterate through GLASSMODS to create radio options -->
+                {% for mod in GLASSMODS %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="glass_mods" id="{{mod}}" value="{{mod}}">
+                    <label class="form-check-label" for="{{mod}}">{{mod}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="glass_mod" id="glass_mod_other" value="other">
+                    <label class="form-check-label" for="glass_mod_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Radios for Ice Type-->
+            <div class="form-group">
+            <h5>Ice Type</h5>
+                <!-- Iterate through ICETYPES to create radio options -->
+                {% for ice in ICETYPES %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="ice_type" id="{{ice}}" value="{{ice}}">
+                    <label class="form-check-label" for="{{ice}}">{{ice}}</label>
+                </div>
+                {% endfor %}
+                <!-- Other option with input -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="ice_type" id="ice_other" value="other">
+                    <label class="form-check-label" for="ice_other"></label>
+                    <input class="other_input" type="text" placeholder="Other (Write In)" name="other" value=""/>
+                </div>
+            </div>
+
+            <!-- Garnish -->
+            <h4>Garnish</h4>
+            <div class="row">
+                <div class="col-sm-2">Qty:</div>
+                <div class="col-sm-2">Unit:</div>
+                <div class="col">Ingredient:</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <input class="form-control" name="garnish_qty" placeholder="1.5" type="text">
+                </div>
+                <div class="col-sm-2">
+                    <input class="form-control" name="garnish_unit" placeholder="oz" type="text">
+                </div>
+                <div class="col-sm-10">
+                    <input class="form-control" name="garnish_ingredient" placeholder="Plymouth Gin" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <label for="garnish">Garnish Instructions</label>
+                <input class="form-control" name="garnish_instructions" id="garnish" type="text">
+            </div>
+
+            <!-- Notes -->
+            <div class="form-group">
+                <label for="notes">Notes:</label>
+                <input class="form-control" name="notes" id="notes" placeholder="notes" type="text">
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+{% endblock %}
+
