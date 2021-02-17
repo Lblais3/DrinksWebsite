@@ -149,6 +149,18 @@ def input_new_recipe():
 @app.route("/recipe/<recipe_id>", )
 def recipe(recipe_id):
     recipe = col.find_one({'_id': ObjectId(recipe_id)})
+    '''ratings_col = db.ratings
+    ratings_col.votes.aggregate(
+       [
+         {
+           $group:
+             {
+               _id: "$objectId",
+               avgRating: { $avg: "$rating" }
+             }
+         }
+       ]
+    )'''
 
     return render_template("/recipe.html", recipe=recipe)
 

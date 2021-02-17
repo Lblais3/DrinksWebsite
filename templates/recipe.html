@@ -12,6 +12,17 @@
 <p> by {{recipe['bartender']}} in {{recipe['year']}}</p>
 <p> Debuted at: {{recipe['bar']}} </p>
 <p> Published in: {{recipe['bar_book']}} </p>
+<!-- #TODO: <p> Rating: {{RATING}}</p> -->
+
+<div class="d-flex justify-content-center">
+    <div class="content text-center">
+        <div class="ratings"> <span class="product-rating">{{recipe['ratings']}}</span><span>/5</span>
+            <div class="stars"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
+            <div class="rating-text"> <span>46 ratings & 15 reviews</span> </div>
+        </div>
+    </div>
+</div>
+
 
 <p> Specs </p>
 <table class="table">
@@ -41,6 +52,173 @@
     </tbody>
 </table>
 
+
+
+
+<div class="container">
+	<!-- Breakdown -->
+    <div class="row">
+			<div class="col">
+				<div class="rating-block">
+					<h4>Average user rating</h4>
+					<h2 class="bold padding-bottom-7">#TODO: Get Avg via aggregation <small>/ 5</small></h2>
+                    <!-- Btn-default btn-grey if not filled. btn-warning btn-sm if filled -->
+					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+					  <i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+					  <i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+					  <i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+					  <i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+					<button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+					  <i class="fa fa-star" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+			<div class="col">
+				<h4>Rating breakdown</h4>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">5 <i class="fa fa-star"></i></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" style="width: 1000%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">#TODO: Get % of 5 Star Reviews</div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">4 <i class="fa fa-star"></i></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" style="width: 80%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">#TODO: Get % of 4 Star Reviews</div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">3 <i class="fa fa-star"></i></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" style="width: 60%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">#TODO: Get % of 3 Star Reviews</div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">2 <i class="fa fa-star"></i></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" style="width: 40%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">#TODO: Get % of 2 Star Reviews</div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">1 <i class="fa fa-star"></i></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" style="width: 20%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">#TODO: Get % of 1 Star Reviews</div>
+				</div>
+			</div>
+		</div>
+
+    <!-- Submit New Review -->
+    <form>
+		<div class="row">
+			<div class="col form-group">
+				<label for="review">Review</label>
+					<span>
+						<fieldset class="rating">
+							<input type="radio" id="star5" name="rating" value="5" />
+							<label for="star5">5 stars</label>
+							<input type="radio" id="star4" name="rating" value="4" />
+							<label for="star4">4 stars</label>
+							<input type="radio" id="star3" name="rating" value="3" />
+							<label for="star3">3 stars</label>
+							<input type="radio" id="star2" name="rating" value="2" />
+							<label for="star2">2 stars</label>
+							<input type="radio" id="star1" name="rating" value="1" />
+							<label for="star1">1 star</label>
+						</fieldset>
+					</span>
+				<textarea class="form-control" id="review" rows="3"></textarea>
+				<!-- Text Input -->
+			</div>
+		</div>
+		<div class="row">
+			<button class="btn btn-primary btn-block" type="submit">Submit</button>
+		</div>
+	</form>
+    <!-- Reviews -->
+    <div class="row">
+			<div class="col">
+				<hr/>
+				<div class="review-block">
+					<div class="row"> <!-- Review item -->
+						<div class="col-sm-3">
+							<img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
+							<div class="review-block-name"><a href="#">#TODO: Get Username</a></div>
+							<div class="review-block-date">#TODO: Get Date Formatted as ([Month] [dd], [yyyy])<br/>#TODO: Get Date formatted as([x] [day/week/month,etc.] ago)</div>
+						</div>
+						<div class="col-sm-9">
+							<div class="review-block-rate">
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <i class="fa fa-star" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <i class="fa fa-star" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <i class="fa fa-star" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <i class="fa fa-star" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <i class="fa fa-star" aria-hidden="true"></i>
+								</button>
+							</div>
+							<div class="review-block-title">#TODO: Get review Title - Maybe skip? i dont want novels</div>
+							<div class="review-block-description">#TODO: Get review text ("This drink wuz good")</div>
+						</div>
+					</div>
+					<hr/>
+				</div>
+			</div>
+		</div>
+
+    </div>
+
+
+
 <!--
 <p> {{recipe['recipe_name']}} </p>
 <p> {{recipe['recipe_name']}} </p>
@@ -51,8 +229,8 @@
 
 
 
-<!-- #TODO:  -->
-<!-- #TODO:  -->
+<!-- #TODO: Reviews -->
+<!-- #TODO: Rating-->
 <!-- #TODO:  -->
 <!-- #TODO:  -->
 
